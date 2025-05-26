@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Graphic Designer Portfolio with Admin Password Management</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;600&display=swap');
+
+  :root {
+    --primary-color: #ff4c60;
+    --secondary-color: #2b2b2b;
+    --background-color: #fefefe;
+    --accent-color: #ffd460;
+    --text-color: #222;
+    --font-main: 'Poppins', sans-serif;
+    --font-heading: 'Montserrat', sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    background: var(--secondary-color);
+    color: var(--background-color);
+    padding: 1.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  header h1 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  nav a {
+    color: var(--background-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    position: relative;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  nav a.disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  nav a:focus,
+  nav a:hover:not(.disabled) {
+    color: var(--accent-color);
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    bottom: -4px;
+    left: 0;
+    transition: width 0.3s ease;
+  }
+
+  nav a:hover::after,
+  nav a:focus::after {
+    width: 100%;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 3rem auto 5rem auto;
+    padding: 0 1rem;
+    flex-grow: 1;
+  }
+
+  section {
+    margin-bottom: 5rem;
+  }
+
+  h2 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-left: 6px solid var(--primary-color);
+    padding-left: 0.75rem;
+  }
+
+  /* About */
+  #about {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  #about img {
+    max-width: 250px;
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(255, 76, 96, 0.3);
+    flex-shrink: 0;
+  }
+  #about p {
+    max-width: 640px;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  /* Resume */
+  #resume {
+    padding: 1rem;
+    background: #fff3e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(255, 112, 67, 0.2);
+  }
+  #resume a {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 2px;
+  }
+  #resume a:hover, #resume a:focus {
+    color: var(--accent-color);
+    border-color: var(--primary-color);
+  }
+
+  /* Skills */
+  #skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 700px;
+  }
+
+  .skill {
+    background: var(--accent-color);
+    color: var(--secondary-color);
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(255, 212, 96, 0.5);
+    user-select: none;
+    transition: transform 0.25s ease;
+    cursor: default;
+  }
+
+  .skill:hover {
+    transform: scale(1.1);
+  }
+
+  /* Projects gallery grid */
+  #projects-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+    gap: 1.8rem;
+  }
+
+  .project-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(255, 76, 96, 0.15);
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255, 76, 96, 0.25);
+  }
+
+  .project-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .project-info {
+    padding: 1rem 1.25rem 1.5rem 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    margin: 0 0 0.6rem 0;
+  }
+
+  .project-desc {
+    flex-grow: 1;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.35;
+    user-select: text;
+  }
+
+  /* Contact Form */
+  form {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  label {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1rem;
+  }
+
+  input, textarea {
+    font-family: var(--font-main);
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+
+  button[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.7rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    border-radius: 30px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+  }
+
+  button[type="submit"]:hover,
+  button[type="submit"]:focus {
+    background: var(--accent-color);
+    color: var(--secondary-color);
+  }
+
+  /* Admin panel styles */
+  #admin-panel {
+    background: #fff9f7;
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 1rem;
+    max-width: 1000px;
+    margin: 1rem auto 3rem auto;
+    display: none; /* hidden by default */
+    flex-direction: column;
+    gap: 1rem;
+  }
+  #admin-panel h3 {
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+    margin: 0 0 0.5rem 0;
+  }
+  #admin-panel label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--secondary-color);
+  }
+  #admin-panel input[type="text"],
+  #admin-panel input[type="url"],
+  #admin-panel input[type="password"],
+  #admin-panel textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1.5px solid var(--accent-color);
+    resize: vertical;
+    font-family: var(--font-main);
+  }
+  #admin-panel button {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    align-self: start;
+    margin-top: 0.5rem;
+  }
+  #admin-panel button:hover {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+  }
+  #admin-error {
+    color: red;
+    font-weight: 700;
+    margin-top: 0.5rem;
+  }
+
+  /* Modal for login */
+  #login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+  }
+  #login-modal .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+  }
+  #login-modal label {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  #login-modal input[type="password"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1.5px solid var(--accent-color);
+    margin-bottom: 1rem;
+  }
+  #login-modal button {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 700;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  #login-modal button:hover {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+  }
+  #login-error {
+    color: red;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    border-top: 1px solid #efefef;
+  }
+
+  /* Responsive */
+  @media (max-width: 650px) {
+    nav {
+      flex-wrap: wrap;
+    }
+    nav a {
+      margin-bottom: 0.5rem;
+    }
+    #projects-list {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    #about {
+      flex-direction: column;
+      text-align: center;
+    }
+    #about img {
+      max-width: 180px;
+      margin-bottom: 1rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    #projects-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="display-name">Your Name</h1>
+  <nav id="main-nav" aria-label="Primary navigation">
+    <a href="#about" tabindex="1" class="nav-link">About</a>
+    <a href="#skills" tabindex="2" class="nav-link">Skills</a>
+    <a href="#projects" tabindex="3" class="nav-link">Projects</a>
+    <a href="#resume" tabindex="4" class="nav-link">Resume</a>
+    <a href="#contact" tabindex="5" class="nav-link">Contact</a>
+    <a href="#" id="admin-tab-link" tabindex="6" class="nav-link">Admin</a>
+  </nav>
+</header>
+
+<main>
+  <section id="about" tabindex="-1" aria-label="About me section">
+    <img id="profile-img" src="https://images.unsplash.com/photo-1503264116251-35a269479413?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=250&amp;q=80&amp;fm=jpg" alt="Portrait of Your Name" />
+    <p id="about-text">Hello! I’m Your Name, a passionate graphic designer who brings ideas to life through vibrant and original designs. I specialize in branding, visual identity, illustration, and digital art. My work combines creativity with strategic thinking to deliver designs that truly resonate.</p>
+  </section>
+
+  <section id="skills" tabindex="-1">
+    <h2>Skills</h2>
+    <div id="skills-list" aria-label="Skills list">
+      <span class="skill">Adobe Photoshop</span>
+      <span class="skill">Adobe Illustrator</span>
+      <span class="skill">Figma</span>
+      <span class="skill">InDesign</span>
+      <span class="skill">Branding</span>
+      <span class="skill">Typography</span>
+      <span class="skill">Digital Illustration</span>
+      <span class="skill">Color Theory</span>
+    </div>
+  </section>
+
+  <section id="projects" tabindex="-1">
+    <h2>Projects</h2>
+    <div id="projects-list" aria-label="Portfolio projects list">
+      <article class="project-card" tabindex="0" aria-label="Project: Modern Branding Identity">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;fm=jpg" alt="Modern Branding Identity Example" class="project-image" />
+        <div class="project-info">
+          <h3 class="project-title">Modern Branding Identity</h3>
+          <p class="project-desc">A sleek branding identity for a tech startup with custom logo, typography and color palette crafted to convey innovation and trust.</p>
+        </div>
+      </article>
+      <article class="project-card" tabindex="0" aria-label="Project: Vibrant Digital Illustration">
+        <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;fm=jpg" alt="Vibrant Digital Illustration Example" class="project-image" />
+        <div class="project-info">
+          <h3 class="project-title">Vibrant Digital Illustration</h3>
+          <p class="project-desc">A colorful digital illustration series used for social media marketing for a lifestyle brand, blending modern style with fun.</p>
+        </div>
+      </article>
+      <article class="project-card" tabindex="0" aria-label="Project: Print Design & Brochure">
+        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;fm=jpg" alt="Print Design & Brochure Example" class="project-image" />
+        <div class="project-info">
+          <h3 class="project-title">Print Design & Brochure</h3>
+          <p class="project-desc">A tri-fold brochure design for a non-profit organization emphasizing clarity, professionalism and engaging visuals.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="resume" tabindex="-1" aria-label="Resume section">
+    <h2>Resume</h2>
+    <div id="resume-content">
+      <p><a href="https://example.com/resume.pdf" target="_blank" rel="noopener noreferrer">View or download my resume (PDF)</a></p>
+    </div>
+  </section>
+
+  <section id="contact" tabindex="-1" aria-label="Contact section">
+    <h2>Contact</h2>
+    <form id="contact-form" aria-label="Contact form" novalidate>
+      <label for="contact-name">Name</label>
+      <input type="text" id="contact-name" name="name" placeholder="Your name" required aria-required="true" />
+
+      <label for="contact-email">Email</label>
+      <input type="email" id="contact-email" name="email" placeholder="Your email" required aria-required="true" />
+
+      <label for="contact-message">Message</label>
+      <textarea id="contact-message" name="message" rows="5" placeholder="Write your message here..." required aria-required="true"></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Admin panel -->
+  <section id="admin-panel" role="region" aria-label="Admin panel">
+    <h2>Admin Panel</h2>
+    <form id="admin-form">
+      <h3>General</h3>
+      <label for="admin-name">Name</label>
+      <input type="text" id="admin-name" name="admin-name" />
+
+      <label for="admin-profile-img">Profile Image URL (JPG)</label>
+      <input type="url" id="admin-profile-img" name="admin-profile-img" placeholder="http://..." />
+
+      <label for="admin-about-text">About Me Text</label>
+      <textarea id="admin-about-text" name="admin-about-text" rows="4"></textarea>
+
+      <h3>Skills</h3>
+      <div id="admin-skills-list"></div>
+      <input type="text" id="admin-new-skill" placeholder="Add new skill" />
+      <button type="button" id="admin-add-skill">Add Skill</button>
+
+      <h3>Projects</h3>
+      <div id="admin-projects-list"></div>
+      <input type="text" id="admin-new-project-title" placeholder="Project Title" />
+      <input type="url" id="admin-new-project-img" placeholder="Project Image URL (JPG)" />
+      <input type="text" id="admin-new-project-desc" placeholder="Project Description" />
+      <button type="button" id="admin-add-project">Add Project</button>
+
+      <h3>Resume</h3>
+      <label for="admin-resume-url">Resume URL (PDF)</label>
+      <input type="url" id="admin-resume-url" placeholder="https://example.com/resume.pdf" />
+
+      <h3>Contact Info</h3>
+      <label for="admin-contact-name">Contact Name</label>
+      <input type="text" id="admin-contact-name" />
+      <label for="admin-contact-email">Contact Email</label>
+      <input type="email" id="admin-contact-email" />
+      <label for="admin-contact-message">Contact Message</label>
+      <textarea id="admin-contact-message" rows="3"></textarea>
+
+      <h3>Change Admin Password</h3>
+      <label for="admin-current-password">Current Password</label>
+      <input type="password" id="admin-current-password" placeholder="Enter current password" autocomplete="current-password" />
+      <label for="admin-new-password">New Password</label>
+      <input type="password" id="admin-new-password" placeholder="Enter new password" autocomplete="new-password" />
+      <label for="admin-confirm-password">Confirm New Password</label>
+      <input type="password" id="admin-confirm-password" placeholder="Confirm new password" autocomplete="new-password" />
+
+      <button type="submit">Save Changes</button>
+      <button type="button" id="admin-logout" style="background:#555;margin-left:1rem;">Logout</button>
+      <div id="admin-save-msg" style="margin-top:.5rem;color:green;"></div>
+      <div id="admin-pass-error" style="margin-top:.5rem;color:red;"></div>
+    </form>
+  </section>
+
+</main>
+
+<!-- Login modal -->
+<div id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title" >
+  <div class="modal-content">
+    <h2 id="login-title">Admin Login</h2>
+    <form id="login-form">
+      <label for="login-password">Enter Admin Password:</label>
+      <input type="password" id="login-password" autocomplete="current-password" required />
+      <button type="submit">Login</button>
+      <div id="login-error" aria-live="assertive" role="alert"></div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  &copy; 2024 <span id="footer-name">Your Name</span>. All rights reserved.
+</footer>
+
+<script>
+(() => {
+  const DEFAULT_PASSWORD = 'admin123'; // Default password
+
+  const dataKey = 'graphic-portfolio-data-admin';
+  const passKey = 'graphic-portfolio-admin-password';
+
+  // Elements
+  const loginModal = document.getElementById('login-modal');
+  const loginForm = document.getElementById('login-form');
+  const loginPasswordInput = document.getElementById('login-password');
+  const loginError = document.getElementById('login-error');
+
+  const adminPanel = document.getElementById('admin-panel');
+  const adminForm = document.getElementById('admin-form');
+  const adminNameInput = document.getElementById('admin-name');
+  const adminProfileImgInput = document.getElementById('admin-profile-img');
+  const adminAboutTextInput = document.getElementById('admin-about-text');
+  const adminSkillsList = document.getElementById('admin-skills-list');
+  const adminNewSkillInput = document.getElementById('admin-new-skill');
+  const adminAddSkillBtn = document.getElementById('admin-add-skill');
+  const adminProjectsList = document.getElementById('admin-projects-list');
+  const adminNewProjectTitle = document.getElementById('admin-new-project-title');
+  const adminNewProjectImg = document.getElementById('admin-new-project-img');
+  const adminNewProjectDesc = document.getElementById('admin-new-project-desc');
+  const adminAddProjectBtn = document.getElementById('admin-add-project');
+  const adminResumeUrlInput = document.getElementById('admin-resume-url');
+  const adminContactNameInput = document.getElementById('admin-contact-name');
+  const adminContactEmailInput = document.getElementById('admin-contact-email');
+  const adminContactMessageInput = document.getElementById('admin-contact-message');
+  const adminCurrentPasswordInput = document.getElementById('admin-current-password');
+  const adminNewPasswordInput = document.getElementById('admin-new-password');
+  const adminConfirmPasswordInput = document.getElementById('admin-confirm-password');
+  const adminSaveMsg = document.getElementById('admin-save-msg');
+  const adminPassError = document.getElementById('admin-pass-error');
+  const adminLogoutBtn = document.getElementById('admin-logout');
+
+  const displayName = document.getElementById('display-name');
+  const profileImg = document.getElementById('profile-img');
+  const aboutText = document.getElementById('about-text');
+  const skillsList = document.getElementById('skills-list');
+  const projectsList = document.getElementById('projects-list');
+  const resumeContent = document.getElementById('resume-content');
+  const contactForm = document.getElementById('contact-form');
+  const footerName = document.getElementById('footer-name');
+
+  const adminTabLink = document.getElementById('admin-tab-link');
+  const navLinks = document.querySelectorAll('nav a.nav-link');
+
+  // State
+  let isAdmin = false;
+  let portfolioData = null;
+  let currentPassword = null;
+
+  // Helper create skill span
+  function createSkillElement(text){
+    const span = document.createElement('span');
+    span.className = 'skill';
+    span.textContent = text;
+    return span;
+  }
+
+  // Helper create project card
+  function createProjectElement(proj){
+    const article = document.createElement('article');
+    article.className = 'project-card';
+    article.tabIndex = 0;
+    article.setAttribute('aria-label', `Project: ${proj.title}`);
+
+    const img = document.createElement('img');
+    img.className = 'project-image';
+    img.src = proj.image;
+    img.alt = proj.title + ' image';
+
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'project-info';
+
+    const h3 = document.createElement('h3');
+    h3.className = 'project-title';
+    h3.textContent = proj.title;
+
+    const p = document.createElement('p');
+    p.className = 'project-desc';
+    p.textContent = proj.description;
+
+    infoDiv.appendChild(h3);
+    infoDiv.appendChild(p);
+    article.appendChild(img);
+    article.appendChild(infoDiv);
+
+    return article;
+  }
+
+  // Load data from localStorage or default
+  function loadData(){
+    let stored = localStorage.getItem(dataKey);
+    if(stored){
+      try{
+        portfolioData = JSON.parse(stored);
+      }catch{
+        portfolioData = getDefaultData();
+      }
+    } else {
+      portfolioData = getDefaultData();
+    }
+  }
+
+  // Load password or default
+  function loadPassword(){
+    let stored = localStorage.getItem(passKey);
+    currentPassword = stored || DEFAULT_PASSWORD;
+  }
+
+  // Default portfolio data
+  function getDefaultData(){
+    return {
+      name: "Your Name",
+      profileImage: "https://images.unsplash.com/photo-1503264116251-35a269479413?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80&fm=jpg",
+      aboutText: `Hello! I’m Your Name, a passionate graphic designer who brings ideas to life through vibrant and original designs. I specialize in branding, visual identity, illustration, and digital art. My work combines creativity with strategic thinking to deliver designs that truly resonate.`,
+      skills: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "Figma",
+        "InDesign",
+        "Branding",
+        "Typography",
+        "Digital Illustration",
+        "Color Theory"
+      ],
+      projects: [
+        {
+          title: "Modern Branding Identity",
+          image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80&fm=jpg",
+          description: "A sleek branding identity for a tech startup with custom logo, typography and color palette crafted to convey innovation and trust."
+        },
+        {
+          title: "Vibrant Digital Illustration",
+          image: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80&fm=jpg",
+          description: "A colorful digital illustration series used for social media marketing for a lifestyle brand, blending modern style with fun."
+        },
+        {
+          title: "Print Design & Brochure",
+          image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80&fm=jpg",
+          description: "A tri-fold brochure design for a non-profit organization emphasizing clarity, professionalism and engaging visuals."
+        }
+      ],
+      resumeUrl: "https://example.com/resume.pdf",
+      contact: {
+        name: "",
+        email: "",
+        message: ""
+      }
+    };
+  }
+
+  // Save data to localStorage
+  function saveData(){
+    localStorage.setItem(dataKey, JSON.stringify(portfolioData));
+  }
+  // Save password to localStorage
+  function savePassword(newPass){
+    localStorage.setItem(passKey, newPass);
+    currentPassword = newPass;
+  }
+
+  // Render portfolio to page
+  function renderPortfolio(){
+    displayName.textContent = portfolioData.name;
+    profileImg.src = portfolioData.profileImage;
+    profileImg.alt = portfolioData.name + " portrait";
+    aboutText.textContent = portfolioData.aboutText;
+
+    footerName.textContent = portfolioData.name;
+
+    // Skills
+    skillsList.innerHTML = '';
+    portfolioData.skills.forEach(s => {
+      skillsList.appendChild(createSkillElement(s));
+    });
+
+    // Projects
+    projectsList.innerHTML = '';
+    portfolioData.projects.forEach(p => {
+      projectsList.appendChild(createProjectElement(p));
+    });
+
+    // Resume
+    resumeContent.innerHTML = '';
+    if(portfolioData.resumeUrl){
+      const link = document.createElement('a');
+      link.href = portfolioData.resumeUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = "View or download my resume (PDF)";
+      resumeContent.appendChild(link);
+    } else {
+      resumeContent.textContent = 'Resume not available';
+    }
+
+    // Contact (clear inputs)
+    contactForm.name.value = portfolioData.contact.name || '';
+    contactForm.email.value = portfolioData.contact.email || '';
+    contactForm.message.value = portfolioData.contact.message || '';
+  }
+
+  // Show/Hide sections and update nav depending on mode
+  function updateModeUI(){
+    if(isAdmin){
+      adminPanel.style.display = 'flex';
+      adminTabLink.classList.add('disabled');
+      navLinks.forEach(a => { if(a!==adminTabLink) a.style.display = 'inline-block'; });
+      loginModal.style.display = 'none';
+    } else {
+      adminPanel.style.display = 'none';
+      adminTabLink.classList.remove('disabled');
+      loginModal.style.display = 'none';
+      adminPassError.textContent = '';
+      adminSaveMsg.textContent = '';
+    }
+  }
+
+  // Fill admin form inputs with current data
+  function fillAdminForm(){
+    adminNameInput.value = portfolioData.name;
+    adminProfileImgInput.value = portfolioData.profileImage;
+    adminAboutTextInput.value = portfolioData.aboutText;
+
+    // Skills
+    adminSkillsList.innerHTML = '';
+    portfolioData.skills.forEach((skill, idx) => {
+      const div = document.createElement('div');
+      div.style.display = 'flex';
+      div.style.alignItems = 'center';
+      div.style.marginBottom = '6px';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = skill;
+      input.style.flexGrow = '1';
+      input.dataset.idx = idx;
+
+      const btnDel = document.createElement('button');
+      btnDel.type = 'button';
+      btnDel.textContent = 'Remove';
+      btnDel.style.marginLeft = '0.5rem';
+
+      btnDel.addEventListener('click', () => {
+        portfolioData.skills.splice(idx,1);
+        fillAdminForm();
+      });
+
+      div.appendChild(input);
+      div.appendChild(btnDel);
+      adminSkillsList.appendChild(div);
+    });
+
+    // Projects
+    adminProjectsList.innerHTML = '';
+    portfolioData.projects.forEach((proj, idx) => {
+      const div = document.createElement('div');
+      div.style.border = '1px solid var(--accent-color)';
+      div.style.borderRadius = '6px';
+      div.style.padding = '6px 8px';
+      div.style.marginBottom = '8px';
+
+      const titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.value = proj.title;
+      titleInput.placeholder = 'Project Title';
+      titleInput.style.display = 'block';
+      titleInput.style.width = '100%';
+      titleInput.dataset.idx = idx;
+      titleInput.dataset.field = 'title';
+      titleInput.style.marginBottom = '4px';
+
+      const imgInput = document.createElement('input');
+      imgInput.type = 'url';
+      imgInput.value = proj.image;
+      imgInput.placeholder = 'Project Image URL (JPG)';
+      imgInput.style.display = 'block';
+      imgInput.style.width = '100%';
+      imgInput.dataset.idx = idx;
+      imgInput.dataset.field = 'image';
+      imgInput.style.marginBottom = '4px';
+
+      const descInput = document.createElement('input');
+      descInput.type = 'text';
+      descInput.value = proj.description;
+      descInput.placeholder = 'Project Description';
+      descInput.style.display = 'block';
+      descInput.style.width = '100%';
+      descInput.dataset.idx = idx;
+      descInput.dataset.field = 'description';
+
+      const btnDel = document.createElement('button');
+      btnDel.type = 'button';
+      btnDel.textContent = 'Remove Project';
+      btnDel.style.marginTop = '6px';
+
+      btnDel.addEventListener('click', () => {
+        portfolioData.projects.splice(idx,1);
+        fillAdminForm();
+      });
+
+      [titleInput, imgInput, descInput].forEach(inputEl => {
+        inputEl.addEventListener('input', e => {
+          const i = parseInt(e.target.dataset.idx, 10);
+          const field = e.target.dataset.field;
+          portfolioData.projects[i][field] = e.target.value;
+        });
+      });
+
+      div.appendChild(titleInput);
+      div.appendChild(imgInput);
+      div.appendChild(descInput);
+      div.appendChild(btnDel);
+
+      adminProjectsList.appendChild(div);
+    });
+
+    adminResumeUrlInput.value = portfolioData.resumeUrl || '';
+
+    adminContactNameInput.value = portfolioData.contact.name || '';
+    adminContactEmailInput.value = portfolioData.contact.email || '';
+    adminContactMessageInput.value = portfolioData.contact.message || '';
+
+    // Clear password inputs
+    adminCurrentPasswordInput.value = '';
+    adminNewPasswordInput.value = '';
+    adminConfirmPasswordInput.value = '';
+    adminPassError.textContent = '';
+  }
+
+  // Save changes from admin form back to portfolioData and password
+  function saveAdminForm(){
+    adminPassError.textContent = '';
+    // Password change validation
+    const currPass = adminCurrentPasswordInput.value;
+    const newPass = adminNewPasswordInput.value;
+    const confirmPass = adminConfirmPasswordInput.value;
+
+    if(newPass || confirmPass){
+      if(currPass.trim() === ''){
+        adminPassError.textContent = 'Current password is required to change password.';
+        return false;
+      }
+      if(currPass !== currentPassword){
+        adminPassError.textContent = 'Current password is incorrect.';
+        return false;
+      }
+      if(newPass !== confirmPass){
+        adminPassError.textContent = 'New password and confirmation do not match.';
+        return false;
+      }
+      if(newPass.length < 4){
+        adminPassError.textContent = 'New password must be at least 4 characters.';
+        return false;
+      }
+    }
+
+    portfolioData.name = adminNameInput.value.trim() || "Your Name";
+    portfolioData.profileImage = adminProfileImgInput.value.trim() || portfolioData.profileImage;
+    portfolioData.aboutText = adminAboutTextInput.value.trim() || '';
+    // Save skills from adminSkillsList inputs
+    portfolioData.skills = [];
+    const skillInputs = adminSkillsList.querySelectorAll('input[type=text]');
+    skillInputs.forEach(inp => {
+      const v = inp.value.trim();
+      if(v.length>0) portfolioData.skills.push(v);
+    });
+    // Resume URL
+    portfolioData.resumeUrl = adminResumeUrlInput.value.trim() || '';
+
+    // Contact info
+    portfolioData.contact.name = adminContactNameInput.value.trim();
+    portfolioData.contact.email = adminContactEmailInput.value.trim();
+    portfolioData.contact.message = adminContactMessageInput.value.trim();
+
+    // Save password if changed
+    if(newPass && newPass === confirmPass && currPass === currentPassword){
+      savePassword(newPass);
+    }
+
+    saveData();
+    renderPortfolio();
+    adminSaveMsg.textContent = 'Changes saved successfully.';
+    setTimeout(() => adminSaveMsg.textContent = '', 4000);
+    return true;
+  }
+
+  // Handlers for adding new skill and project in admin panel
+  function setupAdminControls(){
+    document.getElementById('admin-add-skill').addEventListener('click', () => {
+      const skill = adminNewSkillInput.value.trim();
+      if(skill.length === 0) return;
+      portfolioData.skills.push(skill);
+      adminNewSkillInput.value = '';
+      fillAdminForm();
+    });
+    adminNewSkillInput.addEventListener('input', () => {
+      document.getElementById('admin-add-skill').disabled = adminNewSkillInput.value.trim().length === 0;
+    });
+
+    document.getElementById('admin-add-project').addEventListener('click', () => {
+      const title = adminNewProjectTitle.value.trim();
+      const img = adminNewProjectImg.value.trim();
+      const desc = adminNewProjectDesc.value.trim();
+      if(title.length===0 || img.length===0 || desc.length===0) return;
+      portfolioData.projects.push({
+        title, image: img, description: desc
+      });
+      adminNewProjectTitle.value = '';
+      adminNewProjectImg.value = '';
+      adminNewProjectDesc.value = '';
+      fillAdminForm();
+    });
+
+    // Disable add buttons initially
+    document.getElementById('admin-add-skill').disabled = true;
+    document.getElementById('admin-add-project').disabled = true;
+
+    function validateProjectInputs(){
+      const valid = adminNewProjectTitle.value.trim()!=='' &&
+                    adminNewProjectImg.value.trim()!=='' &&
+                    adminNewProjectDesc.value.trim()!=='';
+      document.getElementById('admin-add-project').disabled = !valid;
+    }
+    adminNewProjectTitle.addEventListener('input', validateProjectInputs);
+    adminNewProjectImg.addEventListener('input', validateProjectInputs);
+    adminNewProjectDesc.addEventListener('input', validateProjectInputs);
+  }
+
+  // Admin logout
+  function adminLogout(){
+    isAdmin = false;
+    updateModeUI();
+    loginPasswordInput.value = '';
+    loginError.textContent = '';
+    loginModal.style.display = 'none';
+  }
+
+  // Admin login check
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const val = loginPasswordInput.value;
+    if(val === currentPassword){
+      isAdmin = true;
+      loginError.textContent = '';
+      loginModal.style.display = 'none';
+      fillAdminForm();
+      updateModeUI();
+    } else {
+      loginError.textContent = 'Incorrect password, please try again.';
+      loginPasswordInput.focus();
+    }
+  });
+
+  // Show login modal when clicking Admin tab
+  adminTabLink.addEventListener('click', e => {
+    e.preventDefault();
+    if(isAdmin){
+      // Already logged in - show admin panel
+      adminPanel.style.display = 'flex';
+    } else {
+      loginModal.style.display = 'flex';
+      loginPasswordInput.focus();
+    }
+  });
+
+  // Handle admin form submit save
+  adminForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if(saveAdminForm()){
+      // Clear password fields after save
+      adminCurrentPasswordInput.value = '';
+      adminNewPasswordInput.value = '';
+      adminConfirmPasswordInput.value = '';
+      adminPassError.textContent = '';
+    }
+  });
+
+  // Handle logout
+  adminLogoutBtn.addEventListener('click', e => {
+    e.preventDefault();
+    adminLogout();
+  });
+
+  // Clicking outside modal closes modal
+  loginModal.addEventListener('click', e => {
+    if(e.target === loginModal){
+      loginModal.style.display = 'none';
+      loginPasswordInput.value = '';
+      loginError.textContent = '';
+    }
+  });
+
+  // Contact form submit prevents sending - demo only
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Contact form submitted. Form handling not implemented.');
+    contactForm.reset();
+  });
+
+  function init(){
+    loadPassword();
+    loadData();
+    renderPortfolio();
+    updateModeUI();
+    setupAdminControls();
+  }
+
+  init();
+})();
+</script>
+
+</body>
+</html>
